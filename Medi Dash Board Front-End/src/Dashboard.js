@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import q1 from "../src/Images/q1.svg";
-import q2 from "../src/Images/q2.svg";
-import q3 from "../src/Images/q3.svg";
-import q4 from "../src/Images/q4.svg";
+import q1 from "../Images/q1.svg";
+import q2 from "../Images/q2.svg";
+import q3 from "../Images/q3.svg";
+import q4 from "../Images/q4.svg";
 import Appointment from "./Appointment";
-import Chart from "./Chart";
+// import Chart from "./Chart";
 import PatientReivew from "./PatientReivew";
 import Chart2 from "./Chart2";
-import d1 from "../src/Images/d1.svg";
+import d1 from "../Images/d1.svg";
 import Doctor from "./Doctor";
-import p1 from "../src/Images/p1.svg";
+import p1 from "../Images/p1.svg";
+import Chart from "../Charts";
+import { Line, Bar, Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 
 export default function Dashboard() {
   const [doctor, setDoctor] = useState([]);
@@ -46,6 +49,37 @@ export default function Dashboard() {
     let result = await fetch("http://localhost:5000/staff");
     result = await result.json();
     setStaff(result);
+  };
+
+  const data = {
+    labels: ["staff", "patients", "appointment", "doctor"],
+    datasets: [
+      {
+        label: "",
+        data: [staff.length, patient.length, Name.length, doctor.length],
+        // borderColor:'red'
+        // backgroundColor:'green'
+      },
+    ],
+  };
+
+  // Chart
+  const option = {
+    title: {
+      display: true,
+      text: "Line Chart",
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            min: 0,
+            max: 200,
+            stepSize: 15,
+          },
+        },
+      ],
+    },
   };
 
   return (
@@ -91,7 +125,7 @@ export default function Dashboard() {
 
         <div className="flex mt-8 ml-[20px] mr-[20px] p-2 gap-10 shadow-lg rounded">
           <div className="flex items-center ">
-            <div className="bg-pink-400 rounded-full p-3 flex items-center">
+            <div className="bg-blue-400 rounded-full p-3 flex items-center">
               <img className="w-10 h-10 ml-[2px]" src={q1} />
             </div>
             <div className="ml-[15px]">
@@ -105,7 +139,7 @@ export default function Dashboard() {
 
           <div className="ml-[60px]">
             <div className="flex items-center">
-              <div className="bg-orange-400 rounded-full w-[70px] h-[70px] flex items-center p-3">
+              <div className="bg-pink-400 rounded-full w-[70px] h-[70px] flex items-center p-3">
                 <img className="w-10 h-10 " src={q2} />
               </div>
               <div className="ml-[15px]">
@@ -120,7 +154,7 @@ export default function Dashboard() {
 
           <div className="ml-[60px]">
             <div className="flex items-center">
-              <div className="bg-green-400 rounded-full w-[70px] h-[70px] flex items-center p-3">
+              <div className="bg-orange-400 rounded-full w-[70px] h-[70px] flex items-center p-3">
                 <img className="w-10 h-10 " src={q3} />
               </div>
               <div className="ml-[15px]">
@@ -135,7 +169,7 @@ export default function Dashboard() {
 
           <div className="ml-[60px]">
             <div className="flex items-center">
-              <div className="bg-blue-400 rounded-full w-[70px] h-[70px] flex items-center p-3">
+              <div className="bg-yellow-400 rounded-full w-[70px] h-[70px] flex items-center p-3">
                 <img className="w-10 h-10 " src={q4} />
               </div>
               <div className="ml-[15px]">
@@ -152,8 +186,12 @@ export default function Dashboard() {
 
         {/* Graph Start */}
         <div className=" w-[75vw] h-[30vh]  flex justify-center items-center gap-6 rounded-sm border">
-          <div className="w-[35vw] h-[100px]">
-            <Chart />
+          <div className="w-[50vw] justify-self-center h-[200px] justify-center	items-center	justify-items-center	">
+            {/* <Chart /> */}
+            <div className="h-[400px] ml-[150px]">
+              {" "}
+              <Doughnut data={data} options={option} />
+            </div>
           </div>
 
           <div className="w-[35vw] h-[100px]">
